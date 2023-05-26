@@ -14,27 +14,15 @@
 <div class="table-container">
   <table class="table">
     <tr>
+      <th>Id</th>
       <th>Tên bài hát</th>
-<!--      <th>Tác giả</th>-->
-<!--      <th>Ảnh</th>-->
       <th>File nhạc</th>
-<!--      <th>Ngày tháng cập nhật</th>-->
     </tr>
-    <tr>
-      <td>Song 1</td>
-      <td>Author 1</td>
-      <td><img src="path_to_image_1" alt="Image 1" width="50"></td>
-      <td><a href="path_to_audio_1">Download</a></td>
-      <td>2023-05-01</td>
+    <tr th:each="mysong:${mySongList}">
+      <td th:text="${mysong.getId()}"></td>
+      <td th:text="${mysong.getName()}"></td>
+      <td><audio th:src="@{'/music/'+${mysong.getPathSong()}}" controls  ></audio></td>
     </tr>
-    <tr>
-      <td>Song 2</td>
-      <td>Author 2</td>
-      <td><img src="path_to_image_2" alt="Image 2" width="50"></td>
-      <td><a href="path_to_audio_2">Download</a></td>
-      <td>2023-05-10</td>
-    </tr>
-    <!-- Thêm các hàng khác tương tự ở đây -->
   </table>
 </div>
 

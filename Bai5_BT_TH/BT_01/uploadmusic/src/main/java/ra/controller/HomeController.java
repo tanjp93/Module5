@@ -9,20 +9,22 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import ra.model.entity.MySong;
 import ra.model.service.IMySongService;
 import ra.model.service.MySongIMPL;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class HomeController {
     IMySongService mySongService=new MySongIMPL();
     @Autowired
     @GetMapping("/")
-    public String toHome(){
-        return "index";
+    public ModelAndView toHome(){
+        return new ModelAndView("index","mySongList",mySongService.findAll());
     }
     @GetMapping("/createNewSong")
     public String toCreateNewSong(Model model){

@@ -39,7 +39,23 @@ public class MySongIMPL implements IMySongService{
 
     @Override
     public void deleteById(Long id) {
-       
+       Session session=null;
+       Transaction transaction=null;
+       try{
+           session=sessionFactory.openSession();
+           transaction=session.beginTransaction();
+           session.delete(findById(id));
+           transaction.commit();
+       }catch (Exception e){
+           e.printStackTrace();
+           if (transaction!=null){
+               transaction.isActive();
+           }
+       }finally {
+           if (session!=null){
+               session.close();
+           }
+       }
     }
 
     @Override
