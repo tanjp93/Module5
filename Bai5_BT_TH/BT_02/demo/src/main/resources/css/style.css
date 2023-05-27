@@ -1,0 +1,32 @@
+.container{
+    width: 100%;
+}
+.container-img{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.container-img img{
+    width: 50%;
+    margin-bottom: 2rem;
+    object-fit: contain;
+}
+.container-content{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.content{
+    width: 50%;
+    margin: 20px
+}
+.vote select{
+    width: 5rem;
+}
+.content label{
+    display: block;
+    width: 100%;
+}
+.content input,textarea{
+    width: 100%;
+}

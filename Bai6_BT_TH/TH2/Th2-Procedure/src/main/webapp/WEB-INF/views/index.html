@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<h1>Danh sách khách hàng</h1>
+<p th:text="${message}"></p>
+<a th:href="@{/create}">Create</a>
+<table style="border: 1px;width: 100%" >
+    <thead><tr>
+        <th>STT</th>
+        <th>FIRST NAME</th>
+        <th>LAST NAME</th>
+        <th colspan="2">ACTION</th>
+    </tr></thead>
+    <tbody>
+        <tr th:each="cus,cusStat:${customers}">
+            <td style="text-align: center" th:text="${cusStat.count}"></td>
+            <td style="text-align: center" hidden="hidden" th:text="${cus.id}"></td>
+            <td style="text-align: center" th:text="${cus.firstName}"></td>
+            <td style="text-align: center" th:text="${cus.lastName}"></td>
+            <td style="text-align: center"><a th:href="@{'/edit/'+${cus.getId()}}">Edit</a> | <a th:href="@{'/delete/'+${cus.getId()}}">Delete</a></td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>
