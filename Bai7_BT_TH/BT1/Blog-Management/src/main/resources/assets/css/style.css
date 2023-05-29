@@ -1,0 +1,64 @@
+.blog_container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.blog_item {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.blog_title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.blog_content {
+    color: #666;
+}
+
+.blog_actions {
+    margin-top: 10px;
+}
+
+.blog_actions button {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.blog_actions button:not(:last-child) {
+    margin-right: 10px;
+}
+
+/*form*/
+.blog_form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.blog_form label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.blog_form input[type="text"],
+.blog_form textarea {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.blog_form input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;}
+/*form*/
+
