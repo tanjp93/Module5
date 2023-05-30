@@ -5,12 +5,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ra.model.service.comment.ICommentService;
+import ra.model.service.imgOfDate.ImgOfDateService;
 
 @Controller
 @RequestMapping("/")
 public class homeController {
     @Autowired
+    private ImgOfDateService imgOfDateService;
+    @Autowired
     private ICommentService commentService;
+
     @GetMapping("")
     public String toHome(){
         return "index";
