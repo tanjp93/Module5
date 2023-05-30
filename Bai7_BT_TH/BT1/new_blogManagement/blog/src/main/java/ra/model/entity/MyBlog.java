@@ -11,8 +11,10 @@ public class MyBlog {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "categoryId")
-    Category category;
+    private Category category;
+    @Column(nullable = false)
     private String title;
+    @Column(name="content",columnDefinition = "text")
     private String content;
     private LocalDate date;
 

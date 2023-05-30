@@ -7,4 +7,5 @@ import ra.model.entity.Category;
 
 @Repository
 public interface ICategoryRepository extends PagingAndSortingRepository<Category,Long> {
+
 }

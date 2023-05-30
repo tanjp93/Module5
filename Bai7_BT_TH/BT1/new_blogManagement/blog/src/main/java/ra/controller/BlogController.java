@@ -1,56 +1,72 @@
 package ra.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import ra.model.entity.Category;
 import ra.model.entity.MyBlog;
+import ra.model.service.category.ICategoryService;
+import ra.model.service.myBlog.IMyBlogService;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/")
 public class BlogController {
     @Autowired
     private IMyBlogService myBlogService;
+    @Autowired
+    private ICategoryService categoryService;
+
+    @ModelAttribute("categories")
+    Iterable<Category> getListCategory() {
+        return categoryService.findAll();
+    }
+
     @GetMapping("")
-    public String toHome(Model model){
-        List<MyBlog> list=myBlogService.findAll();
+    public String toHome(@RequestParam("sortBy") Optional<String> sortBy, ModelMap model, Pageable pageable) {
+        Sort sort = null;
+        if (sortBy.isPresent()) {
+            switch (sortBy.get()) {
+                case "title-ASC":
+                    sort=Sort.by("title").ascending();
+                    break;
+                case "title-DESC":
+                    sort=Sort.by("title").descending();
+                    break;
+                case "date-ASC":
+                    sort=Sort.by("date").ascending();
+                    break;
+                case "date-DESC":
+                    sort=Sort.by("date").descending();
+                    break;
+                default:
+                    break;
+            }
+        }
+        else {
+            sort = Sort.by("title").ascending().and(Sort.by("date").ascending());
+        }
+        Page<MyBlog> list=myBlogService.findAll(pageable,sort);
         model.addAttribute("list",list);
         return "/index";
     }
+
     @GetMapping("/createBlog")
-    public ModelAndView toAddBlog(){
-        return new ModelAndView("/createBlog", "newBlog",new MyBlog());
+    public ModelAndView toCreateBlog() {
+        return new ModelAndView("createBlog", "myBlog", new MyBlog());
     }
-    @PostMapping("/addBlog")
-    public String toAddBlog(@ModelAttribute("newBlog")MyBlog myBlog){
-        String str=myBlog.getContent().substring(0,15);
-        myBlog.setSummary(str);
-        LocalDate date=LocalDate.now();
-        myBlog.setDate(date);
+
+    @PostMapping("/add")
+    public String doCreate(@ModelAttribute("myBlog") MyBlog myBlog) {
+        System.out.println("myBlog>>>>" + myBlog);
         myBlogService.save(myBlog);
         return "redirect:/";
-    }
-    @GetMapping("/edit/{id}")
-    public ModelAndView toEditBlog(@PathVariable("id")String id){
-        return new ModelAndView("/edit", "editBlog",myBlogService.findById(Long.valueOf(id)));
-    }
-    @PostMapping("update")
-    public String toUpdate(@ModelAttribute("editBlog")MyBlog myBlog){
-        myBlogService.save(myBlog);
-        return "redirect:/";
-    }
-    @GetMapping("/delete/{id}")
-    public String toDeleteBlog(@PathVariable("id")String id,Model model){
-        model.addAttribute("message","Delete success");
-        myBlogService.remove(Long.valueOf(id));
-        return "redirect:/";
-    }
-    @GetMapping("/detail/{id}")
-    public ModelAndView toDetailBlog(@PathVariable("id")String id){
-        return new ModelAndView("/detail", "detail",myBlogService.findById(Long.valueOf(id)));
     }
 }

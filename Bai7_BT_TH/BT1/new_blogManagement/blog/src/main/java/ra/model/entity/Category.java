@@ -2,6 +2,7 @@ package ra.model.entity;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "category")
@@ -10,8 +11,8 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToMany(targetEntity = MyBlog.class)
-    private List<MyBlog> myBlogList;
+    @OneToMany(mappedBy = "category",targetEntity = MyBlog.class)
+    private Set<MyBlog> myBlogList;
 
     public Category() {
     }
@@ -36,20 +37,12 @@ public class Category {
         this.name = name;
     }
 
-    public List<MyBlog> getMyBlogList() {
+    public Set<MyBlog> getMyBlogList() {
         return myBlogList;
     }
 
-    public void setMyBlogList(List<MyBlog> myBlogList) {
+    public void setMyBlogList(Set<MyBlog> myBlogList) {
         this.myBlogList = myBlogList;
     }
 
-    @Override
-    public String toString() {
-        return "Category[" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", myBlogList=" + myBlogList +
-                ']';
-    }
 }
