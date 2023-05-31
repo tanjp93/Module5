@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+<div class="container">
+  <form th:object="${comment}" th:action="@{/updateComment}" method="post">
+    <div class="container">
+      <div class="container-img" style="width: 200px">
+        <img th:src="${comment.getImgOfDay()}" style="width: 100%;object-fit: contain">
+      </div>
+    </div>
+    <div class="content vote">
+      <input type="text" hidden="hidden" th:value="${comment.getImgOfDay()}" name="imgOfDay"/>
+      <input type="text" hidden="hidden" th:value="${comment.getId()}" name="id"/>
+      <input type="text" name="date" hidden="hidden" th:value="${comment.getDate()}"/>
+      <input name="star" th:value="${comment.getStar()}" readonly style="border: none;width: 1rem"/>
+      <sup  th:text="${comment.getCountStar()}"></sup>
+      <input name="countStar" th:value="${comment.getCountStar()}" hidden="hidden"/>
+      <span><button type="submit">Like</button></span>
+    </div>
+    <div class="content ">
+      <label for="author">Author :</label>
+      <input type="text" id="author" name="author"  th:value="${comment.author}" readonly>
+      <input type="number" hidden="hidden" min=1 name="countStar" th:value=1 readonly>
+    </div>
+    <div class="content ">
+      <label for="comment">Comment :</label>
+      <textarea type="text" name="comment" id="comment" readonly th:text="${comment.comment}"></textarea>
+    </div>
+    <div class="content ">
+      <button type="submit">Comment</button>
+    </div>
+  </form>
+</div>
+<a href="/">Back to menu</a>
+</body>
+<script>
+  let query = 'https://api.nasa.gov/planetary/apod?api_key=vlYNYybcm4ZhooNu6ILnHBv6ZgYXxhevUtcjOakR';
+  let request = new XMLHttpRequest();
+  request.open('GET', query);
+  request.onload = function () {
+    if (request.status === 200) {
+      let response = JSON.parse(request.responseText);
+      document.getElementById('img-of-the-day').setAttribute('src', response.url);
+      document.getElementById('imgSrc').value = response.url;
+      console.log(document.getElementById('imgSrc').value)
+    }
+  };
+  request.send();
+</script>
+</html>

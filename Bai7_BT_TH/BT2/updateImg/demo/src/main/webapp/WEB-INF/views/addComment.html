@@ -7,13 +7,17 @@
     <title>Document</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+
 <body>
-<div class="container" >
-    <div class="container-img" >
-        <img id="img-of-the-day">
-    </div>
-    <form class="container-content" action="/addFeedback" method="post" th:object="${newFeedback}">
+<div class="container">
+    <form class="container-content" action="/addComment" method="post" th:object="${newComment}">
+        <div class="container">
+            <div class="container-img" style="width: 200px">
+                <img id="img-of-the-day" style="width: 100%;object-fit: contain">
+            </div>
+        </div>
         <div class="content vote">
+            <input type="text" hidden="hidden" id="imgSrc" name="imgOfDay"/>
             <select name="star" id="">
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -28,8 +32,8 @@
             <input type="number" hidden="hidden" min=1 name="countStar" th:value=1>
         </div>
         <div class="content ">
-            <label for="feedback">Feedback :</label>
-            <textarea type="text" name="feedback" id="feedback"></textarea>
+            <label for="comment">Comment :</label>
+            <textarea type="text" name="comment" id="comment"></textarea>
         </div>
         <div class="content ">
             <button type="submit">Comment</button>
@@ -42,10 +46,12 @@
     let query = 'https://api.nasa.gov/planetary/apod?api_key=vlYNYybcm4ZhooNu6ILnHBv6ZgYXxhevUtcjOakR';
     let request = new XMLHttpRequest();
     request.open('GET', query);
-    request.onload = function() {
+    request.onload = function () {
         if (request.status === 200) {
             let response = JSON.parse(request.responseText);
             document.getElementById('img-of-the-day').setAttribute('src', response.url);
+            document.getElementById('imgSrc').value = response.url;
+            console.log(document.getElementById('imgSrc').value)
         }
     };
     request.send();

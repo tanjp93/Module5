@@ -8,24 +8,23 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    @JoinColumn(name="pathImg_id")
-    private ImgOfDay imgOfDay;
+    private String imgOfDay;
     private String author;
-    private String feedback;
+    private String comment;
     private int star;
-    private  long countStar;
-    private LocalDate date;
+    private long countStar;
+    private String date;
 
     public Comment() {
     }
-    public Comment( ImgOfDay imgOfDay, String author, String feedback, int star, long countStar) {
+
+    public Comment(String imgOfDay, String author, String comment, int star, long countStar) {
         this.imgOfDay = imgOfDay;
         this.author = author;
-        this.feedback = feedback;
+        this.comment = comment;
         this.star = star;
         this.countStar = countStar;
-        this.date = LocalDate.now();
+        this.date=LocalDate.now().toString();
     }
 
     public Long getId() {
@@ -35,15 +34,6 @@ public class Comment {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public ImgOfDay getImg() {
-        return imgOfDay;
-    }
-
-    public void setImg(ImgOfDay imgOfDay) {
-        this.imgOfDay = imgOfDay;
-    }
-
     public String getAuthor() {
         return author;
     }
@@ -52,12 +42,12 @@ public class Comment {
         this.author = author;
     }
 
-    public String getFeedback() {
-        return feedback;
+    public String getComment() {
+        return comment;
     }
 
-    public void setFeedback(String feedback) {
-        this.feedback = feedback;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public int getStar() {
@@ -76,24 +66,32 @@ public class Comment {
         this.countStar = countStar;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getImgOfDay() {
+        return imgOfDay;
+    }
+
+    public void setImgOfDay(String imgOfDay) {
+        this.imgOfDay = imgOfDay;
     }
 
     @Override
     public String toString() {
         return "Comment{" +
                 "id=" + id +
-                ", imgOfDay=" + imgOfDay +
+                ", imgOfDay='" + imgOfDay + '\'' +
                 ", author='" + author + '\'' +
-                ", feedback='" + feedback + '\'' +
+                ", comment='" + comment + '\'' +
                 ", star=" + star +
                 ", countStar=" + countStar +
-                ", date=" + date +
+                ", date='" + date + '\'' +
                 '}';
     }
 }

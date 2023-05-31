@@ -1,33 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Create Blog</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      color: #333;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tr:hover {
+      background-color: #ddd;
+    }
+  </style>
 </head>
 <body>
-    <h1>Create Blog</h1>
-    <form action="process_blog.php" method="POST">
-        <!-- <label for="id">ID:</label>
-        <input type="text" id="id" name="id" required><br><br>
-         -->
-        <label for="title">Title:</label>
-        <input type="text" id="title" name="title" required><br><br>
-        
-        <label for="category">Category:</label>
-        <select name="" id="">
-            <option value="">1</option>
-            <option value="">1</option>
-            <option value="">1</option>
-            <option value="">1</option>
-        </select>
-            <br><br>
-        
-        <label for="content">Content:</label><br>
-        <textarea id="content" name="content" rows="4" cols="50" required></textarea><br><br>
-        
-        <label for="date">Date:</label>
-        <input type="date" id="date" name="date" required><br><br>
-        
-        <input type="submit" value="Create">
-    </form>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Ảnh</th>
+      <th>Ngày tháng</th>
+      <th>Chỉnh sửa</th>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td><img src="path/to/image1.jpg" alt="Image 1"></td>
+      <td>2023-05-30</td>
+      <td><a href="">
+        Xem
+      </a></td>
+    </tr>
+    <!-- Thêm các hàng khác tương tự -->
+  </table>
 </body>
 </html>

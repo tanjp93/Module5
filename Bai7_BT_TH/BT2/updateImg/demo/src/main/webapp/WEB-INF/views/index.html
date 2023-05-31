@@ -2,34 +2,84 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Title</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
 </head>
 <body>
-<div class="container" >
-    <div class="container-img" >
-        <img id="img-of-the-day">
-    </div>
-    <div class="content ">
-        <!--            <a th:href="/createFeedback" th:text="Comment"></a>-->
-        <a href="/createFeedback">New Comment</a>
-    </div>
-    <div class="container-content" th:each="fb:${feedbacks}">
-        <div  class="content ">
-            <label for="5star"><span th:text="${fb.getFeedback()}"></span></label>
-            <span id="5star" th:text="'+'+${fb.getCountStar()}"></span>
-            <a th:href="@{'/countStar/'+${fb.getId()}}">Like</a>
-        </div>
+<form>
+    <select name="sortBy">
+        <option value="date-DESC">Ngày Gần Nhất</option>
+        <option value="date-ASC">Ngày tăng dần</option>
+        <option value="star-ASC">Đánh giá tăng dần</option>
+        <option value="star-DESC">Đánh giá giảm dần</option>
+    </select>
+    <button type="submit">Sort</button>
+</form>
+<div>
+    <a href="/toCreate">Comment</a>
+</div>
+<div class="container">
+    <div class="container-img" style="width: 200px">
+        <img id="img-of-the-day" style="width: 100%;object-fit: contain">
     </div>
 </div>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Ảnh</th>
+        <th>Comment</th>
+        <th>Đánh giá</th>
+        <th>Ngày tháng</th>
+        <th>Xem</th>
+    </tr>
+    <tr th:each="cm:${comments}">
+        <td th:text="${cm.id}"></td>
+        <td><img style="width: 100px;" th:src="${cm.getImgOfDay()}" alt=""></td>
+        <th:block th:if="${cm.comment.trim().length()>10}">
+            <td th:text="|${cm.comment.substring(0,10)}.....|"></td>
+        </th:block>
+        <th:block th:if="${cm.comment.trim().length()<=10}">
+            <td th:text="|${cm.comment}.....|"></td>
+        </th:block>
+        <td th:text="${cm.getStar()}"></td>
+        <td th:text="${cm.getDate()}"></td>
+        <td><a th:href="@{/viewDetailComment/__${cm.id}__}">Chi tiết</a></td>
+    </tr>
+</table>
 
+<a th:if="${comments.hasPrevious()}" th:href="@{|/?page=${comments.number - 1 }|}">Previous</a>
+<span th:text="${comments.number +1}"></span>/<span th:text="${comments.getTotalPages()}"></span>
+<a th:if="${comments.hasNext()}" th:href="@{|/?page=${comments.number+1}|}">Next</a>
 </body>
+
 <script>
     let query = 'https://api.nasa.gov/planetary/apod?api_key=vlYNYybcm4ZhooNu6ILnHBv6ZgYXxhevUtcjOakR';
     let request = new XMLHttpRequest();
     request.open('GET', query);
-    request.onload = function() {
+    request.onload = function () {
         if (request.status === 200) {
             let response = JSON.parse(request.responseText);
             document.getElementById('img-of-the-day').setAttribute('src', response.url);
