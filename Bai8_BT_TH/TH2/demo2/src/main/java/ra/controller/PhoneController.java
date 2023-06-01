@@ -17,16 +17,16 @@ public class PhoneController {
         model.addAttribute("phoneNumber", new PhoneNumber());
         return "index";
     }
-//    @PostMapping("/")
-//    public String checkValidation (@Valid @ModelAttribute("phoneNumber")PhoneNumber phoneNumber, BindingResult bindingResult, Model model){
-//        new PhoneNumber().validate(phoneNumber, bindingResult);
-//        if (bindingResult.hasFieldErrors()){
-//            return "/index";
-//        }
-//        else {
-//            model.addAttribute("phoneNumber", phoneNumber);
-//            return "/result";
-//        }
-//    }
+    @PostMapping("/")
+    public String checkValidation (@Valid @ModelAttribute("phoneNumber")PhoneNumber phoneNumber, BindingResult bindingResult, Model model){
+        new PhoneNumber().validate(phoneNumber, bindingResult);
+        if (bindingResult.hasFieldErrors()){
+            return "/index";
+        }
+        else {
+            model.addAttribute("phoneNumber", phoneNumber);
+            return "/result";
+        }
+    }
 
 }

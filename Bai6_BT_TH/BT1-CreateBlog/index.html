@@ -1,48 +1,88 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <title>Registration Form</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
   <style>
-    table {
-      border-collapse: collapse;
-      width: 100%;
-    }
-
-    th, td {
-      text-align: left;
-      padding: 8px;
-    }
-
-    th {
-      background-color: #f2f2f2;
-      color: #333;
-    }
-
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-
-    tr:hover {
-      background-color: #ddd;
-    }
+    .container {
+    width: 400px;
+    margin: 0 auto;
+  }
+  
+  h2 {
+    text-align: center;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+  }
+  
+  input[type="text"],
+  input[type="password"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
   </style>
 </head>
 <body>
-  <table>
-    <tr>
-      <th>ID</th>
-      <th>Ảnh</th>
-      <th>Ngày tháng</th>
-      <th>Chỉnh sửa</th>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td><img src="path/to/image1.jpg" alt="Image 1"></td>
-      <td>2023-05-30</td>
-      <td><a href="">
-        Xem
-      </a></td>
-    </tr>
-    <!-- Thêm các hàng khác tương tự -->
-  </table>
+  <div class="container">
+    <h2>Registration Form</h2>
+    <form action="submit_form.php" method="POST">
+      <div class="form-group">
+        <label for="userName">Username:</label>
+        <input type="text" id="userName" name="userName" required>
+      </div>
+      <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <div class="form-group">
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="tel" id="phoneNumber" name="phoneNumber" required>
+      </div>
+      <div class="form-group">
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Register">
+      </div>
+    </form>
+  </div>
 </body>
 </html>
