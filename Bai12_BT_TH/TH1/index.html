@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jquery</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+</head>
+
+<body>
+    <button onclick="handleShow()">Create</button>
+    <form action="" id="form">
+        <table>
+            <tr>
+                <td >Name :</td>
+                <td> <input type="text" name="studentName" placeholder="input Name ..."></td>
+            </tr>            
+            <tr>
+                <td>Age :</td>
+                <td> <input type="number" name="studentName" min=18></td>
+            </tr>            
+            <tr>
+                <td>Address :</td>
+                <td> <input type="text" name="studentName" placeholder="input Name ..."></td>
+            </tr>   
+            <tr>
+                <td colspan="2"><button type="submit">Create</button></td>
+            </tr>         
+        </table>
+    </form>
+    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%;">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Address</th>
+                <th colspan="2">action</th>
+            </tr>
+        <tbody id="display">
+
+        </tbody>
+
+        </thead>
+    </table>
+    <script>
+        $(document).ready(function () {
+            //get
+            getAll()
+        })
+        const getAll=()=>{
+            //get
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                url: 'http://localhost:8080/api/students/',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    // console.log(data);
+                    // if(data){
+                    //     return
+                    // }
+                    let view = data.reduce((temp, cus, index) => temp + `
+                    <tr>
+                <td>${index+1}</td>
+                <td>${cus.studentName}</td>
+                <td>${cus.age}</td>
+                <td>${cus.address}</td>
+                <td><button onClick=handlePut(${cus.id})>Update</button</td>
+                <td><button onClick=handleDel(${cus.id})>Delete</button</td>
+            </tr>`, '')
+                   $("#display").html(view);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            })
+        }
+       
+        //post
+        const findById = (id) => {
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                url: `http://localhost:8080/api/students/${id}`,
+                type: 'GET',
+                success: function (data) {
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            })
+        }
+        //post
+        const handlePost = () => {
+            let dataPost = { studentName: "Be Nam", age: "20", address: "Ha Tinh" }
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                url: 'http://localhost:8080/api/students/create',
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify(dataPost),
+                success: function (data) {
+                 getAll()
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            })
+        }
+        const handlePut = (id) => {
+            let dataPut = { studentName: "Bé Nâm", age: "30", address: "Ha Tây" }
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                url: `http://localhost:8080/api/students/update/${id}`,
+                type: 'PUT',
+                data: JSON.stringify(dataPut),
+                success: function (data) {
+                    getAll()
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            })
+        }
+        const handleDel = (id) => {
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                url: `http://localhost:8080/api/students/delete/${id}`,
+                type: 'DELETE',
+                success: function (data) {
+                    getAll()
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            }) 
+        }
+        const handleShow=(()=>{
+            $("#form").toggle();
+        })
+    </script>
+</body>
+
+</html>

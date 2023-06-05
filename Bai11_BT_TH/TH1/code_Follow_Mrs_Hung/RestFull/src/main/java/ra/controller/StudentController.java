@@ -19,9 +19,9 @@ public class StudentController {
     @GetMapping
     public ResponseEntity<List<Student>> findAll(){
         List<Student>list= (List<Student>) studentService.findAll();
-        if (list.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+//        if (list.isEmpty()){
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        }
         return new ResponseEntity<>(list,HttpStatus.OK);
     }
     @GetMapping("/{id}")
@@ -47,7 +47,7 @@ public class StudentController {
         return  new ResponseEntity<>(studentService.save(student),HttpStatus.CREATED);
     }
     @PutMapping("update/{id}")
-    public ResponseEntity<Student>update(@PathVariable("id")Long id,Student student){
+    public ResponseEntity<Student>update(@PathVariable("id")Long id,@RequestBody Student student){
         Optional<Student> studentOptional=studentService.findById(id);
         if (!studentOptional.isPresent()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
