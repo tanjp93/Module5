@@ -1,0 +1,136 @@
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.css" />
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            getAllBooks();
+            var book = {};
+            var dynamicURL = "";
+            var methodName = "";
+            $('#btnAddBook').click(function () {
+                book.id = $('#id').val();
+                book.producer = $('#producer').val();
+                book.model = $('#model').val();
+                book.price = $('#price').val();
+                var idInput = book.id
+                if (idInput != 0) {
+                    console.log("id"+idInput);
+                    //update
+                    dynamicURL = "http://localhost:8080/phone/update/" + idInput;
+                    methodName = "PUT";
+                } else {
+                    dynamicURL = "http://localhost:8080/phone/";
+                    methodName = "POST";
+                }
+                var bookObj = JSON.stringify(book);
+                $.ajax({
+                    url: dynamicURL,
+                    method: methodName,
+                    data: bookObj,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function () {
+                        alert('Saved successfully');
+                        getAllBooks();
+                        reset();
+                    },
+                    error: function (error) {
+                        alert(error);
+                    }
+                })
+            })
+        })
+        function getAllBooks() {
+            $.ajax({
+                url: "http://localhost:8080/phone",
+                method: "GET",
+                dataType: "json",
+                success: function (data) {
+                    var tableBody = $('#tblBook tbody');
+                    tableBody.empty();
+                    $(data).each(function (index, element) {
+                        tableBody.append('<tr><td>' + element.producer + '</td><td>' + element.model + '</td><td>' + element.price + '</td><td><button onclick = "update(' + element.id + ')">Update</button> | <button onclick = "deleteBook(' + element.id + ')">Delete</button></td></tr>');
+                    })
+                },
+                error: function (data) {
+                    alert(error);
+                }
+            })
+        }
+        function deleteBook(id) {
+            $.ajax({
+                url: 'http://localhost:8080/phone/delete/' + id,
+                method: 'DELETE',
+                success: function () {
+                    alert('record has been deleted');
+                    getAllBooks();
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            })
+        }
+        function update(id) {
+            $.ajax({
+                url: 'http://localhost:8080/phone/detail/' + id,
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#id').val(data.id);
+                    $('#producer').val(data.producer);
+                    $('#model').val(data.model);
+                    $('#price').val(data.price);
+                    getAllBooks();
+                },
+                error:function(error){
+                    alert('loi a'+error);
+                }
+            })
+        }
+        function reset() {
+            $('#id').val('');
+            $('#producer').val('');
+            $('#model').val('');
+            $('#price').val('');
+        }
+    </script>
+</head>
+
+<body>
+    <div>
+        <table>
+            <td><input type="text" id="id" hidden></td>
+            <tr>
+                <td>Producer</td>
+                <td><input type="text" id="producer"></td>
+            </tr>
+            <tr>
+                <td>Model</td>
+                <td><input type="text" id="model"></td>
+            </tr>
+            <tr>
+                <td>Price</td>
+                <td><input type="text" id="price"></td>
+            </tr>
+            <tr colspan="2">
+                <td><input type="button" value="Add or EDIT" id="btnAddBook"></td>
+            </tr>
+        </table>
+        <table border="1" id="tblBook">
+            <thead>
+                <tr>
+                    <th>Producer</th>
+                    <th>Model</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
